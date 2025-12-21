@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # "corsheaders",
     "apps.products",
     "apps.wishlist",
+    "apps.cart"
 ]
 
 
