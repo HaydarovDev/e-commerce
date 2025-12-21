@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className="flex p-2 justify-between shadow-sm">
+    <header className="w-full bg-white flex p-2 justify-between shadow-sm absolute z-10">
       <Link href="/" className="flex text-2xl font-bold items-center">
         <FlashIcon />
         Market
@@ -20,7 +20,7 @@ const Header = () => {
         </Link>
         <label
           htmlFor="search"
-          className="flex items-center border p-1 rounded gap-2 mx-3"
+          className="hidden sm:flex items-center border p-1 rounded-[7px] gap-2 mx-3"
         >
           <SearchIcon />
           <input
