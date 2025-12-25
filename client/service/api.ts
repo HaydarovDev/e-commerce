@@ -1,6 +1,6 @@
-const BASE_URL: string = "http://127.0.0.1:8000/";
-
 import axios from "axios";
+
+const BASE_URL: string = "http://127.0.0.1:8000/";
 
 export const getProducts = async () => {
   const { data } = await axios.get(`${BASE_URL}api/products/?format=json`);
@@ -13,4 +13,8 @@ export const postId = async (id: number) => {
 
 export const getWishlistId = async () => {
   return await axios.get(`${BASE_URL}wishlist/items/?format=json`);
+};
+
+export const deleteId = async (id: number) => {
+  return await axios.delete(`http://127.0.0.1:8000/wishlist/items/${id}/`);
 };

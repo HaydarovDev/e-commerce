@@ -1,6 +1,7 @@
 "use client";
-import LikedIcon from "@/assets/images/icons/LikedIcon";
-import { getProducts, getWishlistId, postId } from "@/service/api";
+
+import LikeIcon from "@/assets/images/icons/LikeIcon";
+import { deleteId, getProducts, getWishlistId, postId } from "@/service/api";
 import { ProductDetails, Wishlist } from "@/types/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -8,7 +9,8 @@ import { useEffect, useState } from "react";
 const BestSellers = () => {
   const [active, setActive] = useState<number>(0);
   const [data, setData] = useState<ProductDetails[] | []>([]);
-  const [wishlistId, setWishlistId] = useState<Wishlist[] | []>([]);
+  const [wishlistId, setWishlistId] = useState<number[]>([]);
+  const [wishlist, setWishlist] = useState<Wishlist[] | []>([]);
 
   const category = [
     "Health Food",
@@ -24,7 +26,8 @@ const BestSellers = () => {
       const productsList = await getProducts();
       setData(productsList);
       const { data } = await getWishlistId();
-      setWishlistId(data);
+      setWishlist(data);
+      setWishlistId(data.map((liked: Wishlist) => liked.product_id as number));
     };
     data();
   }, []);
@@ -33,7 +36,19 @@ const BestSellers = () => {
     setActive(index);
   };
 
-  console.log(data);
+  const handleLike = async (id: number) => {
+    setWishlistId((prev) => prev.filter((remove) => remove !== id));
+    if (wishlistId.includes(id)) {
+      const wishlistItem = wishlist.find((item) => item.product_id === id);
+      if (wishlistItem) {
+        const wishlistDeleteId = await deleteId(wishlistItem.id);
+        console.log(wishlistDeleteId);
+      }
+    } else {
+      await postId(id);
+      setWishlistId((prev) => [...prev, id]);
+    }
+  };
 
   return (
     <article className="pt-15 p-4">
@@ -65,18 +80,15 @@ const BestSellers = () => {
                 key={i}
                 className="bg-[#F8F8F8] p-3 rounded-2xl relative duration-100 hover:shadow-sm group"
               >
-                {wishlistId &&
-                  wishlistId.map((id) => {
-                    return (
-                      <span
-                        key={id.id}
-                        onClick={() => postId(item.id)}
-                        className="absolute left-3 p-2 justify-center w-10 h-10 text-[#ffffff] flex items-center font-semibold rounded-[50%] shadow-sm bg-white"
-                      >
-                        <LikedIcon />
-                      </span>
-                    );
-                  })}
+                <span
+                  key={i}
+                  onClick={() => handleLike(item.id)}
+                  className="absolute left-3 p-2 justify-center w-10 h-10 text-[#ffffff] flex items-center font-semibold rounded-[50%] shadow-sm bg-white"
+                >
+                  <LikeIcon
+                    liked={wishlistId.includes(item.id) ? "red" : "#000"}
+                  />
+                </span>
                 <div>
                   <div className="overflow-hidden rounded-2xl px-3">
                     <Image
