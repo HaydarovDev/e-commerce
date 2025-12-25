@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className="w-full bg-white flex px-10 py-2 justify-between shadow-sm absolute z-10">
+    <header className="w-full bg-white flex px-10 py-2 justify-between shadow-sm fixed z-10">
       <Link href="/" className="flex text-2xl font-bold items-center">
         <FlashIcon />
         Market

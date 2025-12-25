@@ -7,3 +7,9 @@ export interface ProductDetails {
   count: number;
   image: string;
 }
+
+export interface Wishlist {
+  id: number;
+  product_id: number;
+  created_at: string;
+}
