@@ -1,10 +1,15 @@
+"use client";
 import FlashIcon from "@/assets/images/icons/FlashIcon";
 import LikedIcon from "@/assets/images/icons/LikedIcon";
 import SearchIcon from "@/assets/images/icons/SearchIcon";
 import UserIcon from "@/assets/images/icons/UserIcon";
+import { useWishlist } from "@/providers/WishlistProvider";
+import { IconButton } from "@mui/material";
 import Link from "next/link";
 
 const Header = () => {
+  const { wishlistIds } = useWishlist();
+
   return (
     <header className="w-full bg-white flex px-10 py-2 justify-between shadow-sm fixed z-10">
       <Link href="/" className="flex text-2xl font-bold items-center">
@@ -30,16 +35,19 @@ const Header = () => {
             id="search"
           />
         </label>
-        <button aria-label="wishlist">
+        <IconButton aria-label="wishlist" className="relative ">
           <Link href="">
             <LikedIcon />
+            <span className="absolute top-[-4] right-0 text-[15px] font-bold">
+              {wishlistIds.length}
+            </span>
           </Link>
-        </button>
-        <button aria-label="account">
+        </IconButton>
+        <IconButton aria-label="account">
           <Link href="">
             <UserIcon />
           </Link>
-        </button>
+        </IconButton>
       </ul>
     </header>
   );
