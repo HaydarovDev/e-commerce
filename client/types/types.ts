@@ -11,5 +11,5 @@ export interface ProductDetails {
 export interface Wishlist {
   id: number;
   product_id: number;
-  created_at: string;
+  created_at?: string;
 }

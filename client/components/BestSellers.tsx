@@ -27,26 +27,46 @@ const BestSellers = () => {
       setData(productsList);
       const { data } = await getWishlistId();
       setWishlist(data);
-      setWishlistId(data.map((liked: Wishlist) => liked.product_id as number));
+      setWishlistId(data.map((liked: Wishlist) => liked.product_id));
     };
     data();
   }, []);
 
-  const handleClick = (index: number): void => {
+  const handleClick = (index: number) => {
     setActive(index);
   };
 
   const handleLike = async (id: number) => {
-    setWishlistId((prev) => prev.filter((remove) => remove !== id));
-    if (wishlistId.includes(id)) {
-      const wishlistItem = wishlist.find((item) => item.product_id === id);
-      if (wishlistItem) {
-        const wishlistDeleteId = await deleteId(wishlistItem.id);
-        console.log(wishlistDeleteId);
+    const exists = wishlist.find((item) => item.product_id === id);
+
+    if (exists) {
+      setWishlist((prev) => prev.filter((item) => item.product_id !== id));
+      setWishlistId((prev) => prev.filter((pid) => pid !== id));
+
+      try {
+        await deleteId(exists.id);
+      } catch (err) {
+        setWishlist((prev) => [...prev, exists]);
+        setWishlistId((prev) => [...prev, id]);
+        console.error("Delete wishlist error:", err);
       }
     } else {
-      await postId(id);
+      // eslint-disable-next-line react-hooks/purity
+      const tempItem: Wishlist = { id: Date.now(), product_id: id };
+      setWishlist((prev) => [...prev, tempItem]);
       setWishlistId((prev) => [...prev, id]);
+
+      try {
+        const newItem = await postId(id);
+        setWishlist((prev) =>
+          prev.map((item) => (item.id === tempItem.id ? newItem : item))
+        );
+      } catch (err) {
+        // Rollback on error
+        setWishlist((prev) => prev.filter((item) => item.id !== tempItem.id));
+        setWishlistId((prev) => prev.filter((pid) => pid !== id));
+        console.error("Add wishlist error:", err);
+      }
     }
   };
 
@@ -72,7 +92,7 @@ const BestSellers = () => {
           })}
       </ul>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5 hover:cursor-pointer">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5 hover:cursor-pointer py-5">
         {data &&
           data.map((item, i) => {
             return (

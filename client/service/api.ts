@@ -8,7 +8,17 @@ export const getProducts = async () => {
 };
 
 export const postId = async (id: number) => {
-  await axios.post(`${BASE_URL}wishlist/items/`, { product_id: id });
+  try {
+    const { data } = await axios.post(`${BASE_URL}wishlist/items/`, {
+      product_id: id,
+    });
+    return data; // backend object qaytarsa shu kerak
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Wishlist POST error:", error.response?.data || error);
+      throw error;
+    }
+  }
 };
 
 export const getWishlistId = async () => {
