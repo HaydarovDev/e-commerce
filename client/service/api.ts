@@ -28,3 +28,33 @@ export const getWishlistId = async () => {
 export const deleteId = async (id: number) => {
   return await axios.delete(`http://127.0.0.1:8000/wishlist/items/${id}/`);
 };
+
+//
+
+const API_URL = "http://127.0.0.1:8000/cart/cart/";
+
+export async function getCart() {
+  const res = await fetch(API_URL, { cache: "no-store" });
+  return res.json();
+}
+
+export async function addToCart(product_id: number) {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ product_id }),
+  });
+  return res.json();
+}
+
+export async function removeFromCart(product_id: number) {
+  await fetch(API_URL, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ product_id }),
+  });
+}

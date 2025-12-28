@@ -8,6 +8,16 @@ import { useEffect, useState } from "react";
 import { useWishlist } from "@/providers/WishlistProvider";
 import { IconButton } from "@mui/material";
 
+const addToCart = async (product_id: number) => {
+  await fetch("http://127.0.0.1:8000/cart/cart/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ product_id }),
+  });
+};
+
 const BestSellers = () => {
   const [active, setActive] = useState(0);
   const [data, setData] = useState<ProductDetails[]>([]);
@@ -30,7 +40,6 @@ const BestSellers = () => {
     fetchProducts();
   }, []);
 
-  // Add handleClick function to update the active category
   const handleClick = (index: number) => {
     setActive(index);
   };
@@ -40,20 +49,19 @@ const BestSellers = () => {
       <h1 className="text-2xl font-bold">Best seller</h1>
 
       <ul className="flex gap-3">
-        {category &&
-          category.map((item, i) => (
-            <li
-              key={item}
-              onClick={() => handleClick(i)}
-              className={`cursor-pointer p-1 duration-100 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:-z-1 after:w-0 after:h-0.5 after:duration-100 hover:text-[#38CB89] ${
-                i === active
-                  ? "after:w-full text-[#38CB89] after:bg-[#38CB89]"
-                  : ""
-              }`}
-            >
-              {item}
-            </li>
-          ))}
+        {category.map((item, i) => (
+          <li
+            key={item}
+            onClick={() => handleClick(i)}
+            className={`cursor-pointer p-1 duration-100 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:-z-1 after:w-0 after:h-0.5 after:duration-100 hover:text-[#38CB89] ${
+              i === active
+                ? "after:w-full text-[#38CB89] after:bg-[#38CB89]"
+                : ""
+            }`}
+          >
+            {item}
+          </li>
+        ))}
       </ul>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5 py-5">
@@ -73,7 +81,6 @@ const BestSellers = () => {
                 backgroundColor: "#fff",
                 borderRadius: "50%",
                 boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
-
                 "&:hover": {
                   backgroundColor: "#f5f5f5",
                 },
@@ -92,7 +99,13 @@ const BestSellers = () => {
                 height={300}
                 className="object-cover w-full rounded-2xl bg-white"
               />
-              <button className="w-full btn bg-[#38CB89] text-white cursor-pointer py-2 rounded-[7px] translate-y-[105%] group-hover:-translate-y-3 transition-all duration-120">
+
+              <button
+                onClick={() => addToCart(item.id)}
+                className="w-full btn bg-[#38CB89] text-white cursor-pointer py-2 rounded-[7px]
+                           translate-y-[105%] group-hover:-translate-y-3
+                           transition-all duration-120"
+              >
                 Add to cart
               </button>
             </div>
