@@ -64,7 +64,7 @@ const BestSellers = () => {
         ))}
       </ul>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5 py-5">
+      <div className="grid grid-cols-5 gap-5 py-5">
         {data.map((item) => (
           <div
             key={item.id}

@@ -3,6 +3,7 @@ import FlashIcon from "@/assets/images/icons/FlashIcon";
 import LikedIcon from "@/assets/images/icons/LikedIcon";
 import SearchIcon from "@/assets/images/icons/SearchIcon";
 import UserIcon from "@/assets/images/icons/UserIcon";
+import WishlistIcon from "@/assets/images/icons/WishlistIcon";
 import { useWishlist } from "@/providers/WishlistProvider";
 import { IconButton } from "@mui/material";
 import Link from "next/link";
@@ -36,12 +37,15 @@ const Header = () => {
           />
         </label>
         <IconButton aria-label="wishlist" className="relative ">
-          <Link href="">
+          <Link href="/wishlist">
             <LikedIcon />
             <span className="absolute top-[-4] right-0 text-[15px] font-bold">
-              {wishlistIds.length}
+              {wishlistIds.length === 0 ? "" : wishlistIds.length}
             </span>
           </Link>
+        </IconButton>
+        <IconButton>
+          <WishlistIcon />
         </IconButton>
         <IconButton aria-label="account">
           <Link href="">

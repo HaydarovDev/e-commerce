@@ -23,7 +23,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const fetchWishlist = async () => {
-      const { data } = await getWishlistId();
+      const data = await getWishlistId();
       setWishlist(data);
       setWishlistIds(data.map((item: Wishlist) => item.product_id));
     };

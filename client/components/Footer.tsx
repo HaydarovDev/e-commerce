@@ -1,5 +1,6 @@
 import InstagramIcon from "@/assets/images/icons/InstagramIcon";
 import TelegramIcon from "@/assets/images/icons/TelegramIcon";
+import { IconButton } from "@mui/material";
 
 const Footer = () => {
   return (
@@ -7,12 +8,12 @@ const Footer = () => {
       <div className="flex w-full justify-between px-10">
         <h1 className="text-2xl font-bold">Market</h1>
         <div className="flex gap-2">
-          <button className="p-1 rounded-[10px] shadow-sm">
+          <IconButton className="p-1 rounded-[10px] shadow-sm">
             <InstagramIcon />
-          </button>
-          <button className="p-1 rounded-[10px] shadow-sm">
+          </IconButton>
+          <IconButton className="p-1 rounded-[10px] shadow-sm">
             <TelegramIcon />
-          </button>
+          </IconButton>
         </div>
       </div>
       <p className="text-center">

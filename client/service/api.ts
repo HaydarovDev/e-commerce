@@ -22,24 +22,25 @@ export const postId = async (id: number) => {
 };
 
 export const getWishlistId = async () => {
-  return await axios.get(`${BASE_URL}wishlist/items/?format=json`);
+  const { data } = await axios.get(`${BASE_URL}wishlist/items/?format=json`);
+  return data;
 };
 
 export const deleteId = async (id: number) => {
   return await axios.delete(`http://127.0.0.1:8000/wishlist/items/${id}/`);
 };
 
-//
-
-const API_URL = "http://127.0.0.1:8000/cart/cart/";
-
 export async function getCart() {
-  const res = await fetch(API_URL, { cache: "no-store" });
-  return res.json();
+  const res = await axios.get(`${BASE_URL}/cart/cart`, {
+    headers: {
+      "Cache-Control": "no-store",
+    },
+  });
+  return res;
 }
 
 export async function addToCart(product_id: number) {
-  const res = await fetch(API_URL, {
+  const res = await fetch(`${BASE_URL}/cart/cart`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,11 +51,12 @@ export async function addToCart(product_id: number) {
 }
 
 export async function removeFromCart(product_id: number) {
-  await fetch(API_URL, {
-    method: "DELETE",
+  await axios.delete(`${BASE_URL}/cart/cart`, {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ product_id }),
+    data: {
+      product_id,
+    },
   });
 }
