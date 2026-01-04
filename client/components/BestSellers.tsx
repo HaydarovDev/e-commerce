@@ -1,22 +1,12 @@
 "use client";
 
 import LikeIcon from "@/assets/images/icons/LikeIcon";
-import { getProducts } from "@/service/api";
+import { addToCart, getProducts } from "@/service/api";
 import { ProductDetails } from "@/types/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useWishlist } from "@/providers/WishlistProvider";
 import { IconButton } from "@mui/material";
-
-const addToCart = async (product_id: number) => {
-  await fetch("http://127.0.0.1:8000/cart/cart/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ product_id }),
-  });
-};
 
 const BestSellers = () => {
   const [active, setActive] = useState(0);
@@ -31,6 +21,10 @@ const BestSellers = () => {
     "Accessories",
     "Ayurveda",
   ];
+
+  const handleAddCart = async (product_id: number) => {
+    await addToCart(product_id);
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -101,7 +95,7 @@ const BestSellers = () => {
               />
 
               <button
-                onClick={() => addToCart(item.id)}
+                onClick={() => handleAddCart(item.id)}
                 className="w-full btn bg-[#38CB89] text-white cursor-pointer py-2 rounded-[7px]
                            translate-y-[105%] group-hover:-translate-y-3
                            transition-all duration-120"

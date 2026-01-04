@@ -39,16 +39,17 @@ export async function getCart() {
   return res;
 }
 
-export async function addToCart(product_id: number) {
-  const res = await fetch(`${BASE_URL}/cart/cart`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ product_id }),
-  });
-  return res.json();
-}
+export const addToCart = async (product_id: number) => {
+  return await axios.post(
+    "http://127.0.0.1:8000/cart/cart/",
+    { product_id },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
 
 export async function removeFromCart(product_id: number) {
   await axios.delete(`${BASE_URL}/cart/cart`, {

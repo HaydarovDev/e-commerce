@@ -13,3 +13,13 @@ export interface Wishlist {
   product_id: number;
   created_at?: string;
 }
+
+export interface WishlistItem {
+  product_id: number;
+}
+
+export interface Product {
+  id: number;
+  image: string;
+  title: string;
+}
