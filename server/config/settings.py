@@ -57,6 +57,13 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+    "cache-control",
+]
+
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [

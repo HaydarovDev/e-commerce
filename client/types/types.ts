@@ -23,3 +23,9 @@ export interface Product {
   image: string;
   title: string;
 }
+
+export interface Cart {
+  id: number;
+  product_id: number;
+  quantity: number;
+}

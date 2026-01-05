@@ -8,8 +8,8 @@ import {
   ReactNode,
   useMemo,
 } from "react";
-import { deleteId, getWishlistId, postId } from "@/service/api";
-import { Wishlist } from "@/types/types";
+import { deleteId, getCart, getWishlistId, postId } from "@/service/api";
+import { Cart, Wishlist } from "@/types/types";
 
 interface WishlistContextType {
   wishlistIds: number[];
@@ -21,43 +21,43 @@ const WishlistContext = createContext<WishlistContextType | null>(null);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const [wishlist, setWishlist] = useState<Wishlist[]>([]);
+  const [cart, setCart] = useState<Cart[] | []>([]);
 
-  // 🔥 mount bo‘lganda fetch
   useEffect(() => {
     const fetchWishlist = async () => {
       const data = await getWishlistId();
       setWishlist(data);
     };
     fetchWishlist();
+    const getCartId = async () => {
+      const { data } = await getCart();
+      setCart(data);
+    };
+    getCartId();
   }, []);
 
-  // ✅ derived state
   const wishlistIds = useMemo(
     () => wishlist.map((w) => w.product_id),
     [wishlist]
   );
 
-  // ❤️ like / unlike
   const toggleLike = async (productId: number) => {
     const existing = wishlist.find((w) => w.product_id === productId);
 
-    // ❌ unlike
     if (existing) {
       setWishlist((prev) => prev.filter((w) => w.product_id !== productId));
 
       try {
         await deleteId(existing.id);
       } catch (err) {
-        // rollback
         setWishlist((prev) => [...prev, existing]);
         console.error("Delete wishlist error:", err);
       }
       return;
     }
 
-    // ✅ like (optimistic)
     const tempItem: Wishlist = {
-      id: -productId, // temp id
+      id: -productId,
       product_id: productId,
     };
 
@@ -69,13 +69,11 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         prev.map((w) => (w.id === tempItem.id ? newItem : w))
       );
     } catch (err) {
-      // rollback
       setWishlist((prev) => prev.filter((w) => w.id !== tempItem.id));
       console.error("Add wishlist error:", err);
     }
   };
 
-  // 🗑 delete by productId
   const deleteItem = async (productId: number) => {
     const item = wishlist.find((w) => w.product_id === productId);
     if (!item) return;

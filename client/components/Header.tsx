@@ -45,7 +45,9 @@ const Header = () => {
           </Link>
         </IconButton>
         <IconButton>
-          <WishlistIcon />
+          <Link href="/cart">
+            <WishlistIcon />
+          </Link>
         </IconButton>
         <IconButton aria-label="account">
           <Link href="">

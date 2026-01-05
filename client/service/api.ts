@@ -31,17 +31,13 @@ export const deleteId = async (id: number) => {
 };
 
 export async function getCart() {
-  const res = await axios.get(`${BASE_URL}/cart/cart`, {
-    headers: {
-      "Cache-Control": "no-store",
-    },
-  });
+  const res = await axios.get(`${BASE_URL}cart/cart/?format=json`);
   return res;
 }
 
 export const addToCart = async (product_id: number) => {
   return await axios.post(
-    "http://127.0.0.1:8000/cart/cart/",
+    `${BASE_URL}cart/cart/`,
     { product_id },
     {
       headers: {
