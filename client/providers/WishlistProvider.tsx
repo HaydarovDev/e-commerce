@@ -15,6 +15,7 @@ interface WishlistContextType {
   wishlistIds: number[];
   toggleLike: (productId: number) => Promise<void>;
   deleteItem: (productId: number) => Promise<void>;
+  cartIds: number[];
 }
 
 const WishlistContext = createContext<WishlistContextType | null>(null);
@@ -40,6 +41,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     () => wishlist.map((w) => w.product_id),
     [wishlist]
   );
+
+  const cartIds = useMemo(() => cart.map((w) => w.product_id), [cart]);
 
   const toggleLike = async (productId: number) => {
     const existing = wishlist.find((w) => w.product_id === productId);
@@ -89,7 +92,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <WishlistContext.Provider value={{ wishlistIds, toggleLike, deleteItem }}>
+    <WishlistContext.Provider
+      value={{ wishlistIds, toggleLike, deleteItem, cartIds }}
+    >
       {children}
     </WishlistContext.Provider>
   );
