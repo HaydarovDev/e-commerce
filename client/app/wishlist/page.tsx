@@ -24,7 +24,7 @@ const Wishlist = () => {
   );
 
   return (
-    <article className="grid grid-cols-5 gap-5 py-5 pt-20">
+    <article className="grid grid-cols-5 gap-5 py-5 pt-20 px-10">
       {findProduct.length ? (
         findProduct.map((item) => (
           <div key={item.id} className="bg-[#F8F8F8] p-3 rounded-2xl relative">

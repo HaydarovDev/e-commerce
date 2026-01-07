@@ -1,7 +1,7 @@
 "use client";
 
 import LikeIcon from "@/assets/images/icons/LikeIcon";
-import { addToCart, getProducts } from "@/service/api";
+import { getProducts } from "@/service/api";
 import { ProductDetails } from "@/types/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ import { IconButton } from "@mui/material";
 const BestSellers = () => {
   const [active, setActive] = useState(0);
   const [data, setData] = useState<ProductDetails[]>([]);
-  const { wishlistIds, toggleLike } = useWishlist();
+  const { wishlistIds, toggleLike, handleAddCart } = useWishlist();
 
   const category = [
     "Health Food",
@@ -21,10 +21,6 @@ const BestSellers = () => {
     "Accessories",
     "Ayurveda",
   ];
-
-  const handleAddCart = async (product_id: number) => {
-    await addToCart(product_id);
-  };
 
   useEffect(() => {
     const fetchProducts = async () => {

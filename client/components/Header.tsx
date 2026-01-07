@@ -9,7 +9,7 @@ import { IconButton } from "@mui/material";
 import Link from "next/link";
 
 const Header = () => {
-  const { wishlistIds } = useWishlist();
+  const { wishlistIds, cartIds } = useWishlist();
 
   return (
     <header className="w-full bg-white flex px-10 py-2 justify-between shadow-sm fixed z-10">
@@ -36,19 +36,22 @@ const Header = () => {
             id="search"
           />
         </label>
-        <IconButton aria-label="wishlist" className="relative ">
-          <Link href="/wishlist">
+        <Link href="/wishlist">
+          <IconButton aria-label="wishlist" className="relative ">
             <LikedIcon />
             <span className="absolute top-[-4] right-0 text-[15px] font-bold">
               {wishlistIds.length === 0 ? "" : wishlistIds.length}
             </span>
-          </Link>
-        </IconButton>
-        <IconButton>
-          <Link href="/cart">
+          </IconButton>
+        </Link>
+        <Link href="/cart">
+          <IconButton>
             <WishlistIcon />
-          </Link>
-        </IconButton>
+            <span className="absolute top-[-4] right-0 text-[15px] font-bold">
+              {cartIds.length === 0 ? "" : cartIds.length}
+            </span>
+          </IconButton>
+        </Link>
         <IconButton aria-label="account">
           <Link href="">
             <UserIcon />

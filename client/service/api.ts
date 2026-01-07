@@ -36,7 +36,7 @@ export async function getCart() {
 }
 
 export const addToCart = async (product_id: number) => {
-  return await axios.post(
+  await axios.post(
     `${BASE_URL}cart/cart/`,
     { product_id },
     {

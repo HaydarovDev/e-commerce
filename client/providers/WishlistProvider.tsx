@@ -8,13 +8,21 @@ import {
   ReactNode,
   useMemo,
 } from "react";
-import { deleteId, getCart, getWishlistId, postId } from "@/service/api";
+import {
+  addToCart,
+  deleteId,
+  getCart,
+  getWishlistId,
+  postId,
+} from "@/service/api";
 import { Cart, Wishlist } from "@/types/types";
 
 interface WishlistContextType {
   wishlistIds: number[];
   toggleLike: (productId: number) => Promise<void>;
   deleteItem: (productId: number) => Promise<void>;
+  postItem: (product_id: number) => Promise<void>;
+  handleAddCart: (product_id: number) => Promise<void>;
   cartIds: number[];
 }
 
@@ -43,6 +51,10 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   );
 
   const cartIds = useMemo(() => cart.map((w) => w.product_id), [cart]);
+
+  const handleAddCart = async (product_id: number) => {
+    await addToCart(product_id);
+  };
 
   const toggleLike = async (productId: number) => {
     const existing = wishlist.find((w) => w.product_id === productId);
@@ -91,9 +103,18 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const postItem = async () => {};
+
   return (
     <WishlistContext.Provider
-      value={{ wishlistIds, toggleLike, deleteItem, cartIds }}
+      value={{
+        wishlistIds,
+        toggleLike,
+        deleteItem,
+        cartIds,
+        postItem,
+        handleAddCart,
+      }}
     >
       {children}
     </WishlistContext.Provider>
