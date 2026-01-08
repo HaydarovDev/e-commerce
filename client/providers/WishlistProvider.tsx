@@ -24,6 +24,8 @@ interface WishlistContextType {
   postItem: (product_id: number) => Promise<void>;
   handleAddCart: (product_id: number) => Promise<void>;
   cartIds: number[];
+  formatUZS: (amount: number) => string;
+  cart: Cart[];
 }
 
 const WishlistContext = createContext<WishlistContextType | null>(null);
@@ -103,6 +105,14 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const formatUZS = (amount: number) => {
+    return new Intl.NumberFormat("uz-UZ", {
+      style: "currency",
+      currency: "UZS",
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
   const postItem = async () => {};
 
   return (
@@ -114,6 +124,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         cartIds,
         postItem,
         handleAddCart,
+        cart,
+        formatUZS,
       }}
     >
       {children}

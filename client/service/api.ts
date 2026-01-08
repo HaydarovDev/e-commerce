@@ -47,6 +47,18 @@ export const addToCart = async (product_id: number) => {
   );
 };
 
+export const removeCart = async (product_id: number) => {
+  await axios.post(
+    `${BASE_URL}cart/cart/`,
+    { product_id, action: "decrease" },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};
+
 export async function removeFromCart(product_id: number) {
   await axios.delete(`${BASE_URL}/cart/cart`, {
     headers: {

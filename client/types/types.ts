@@ -18,11 +18,11 @@ export interface WishlistItem {
   product_id: number;
 }
 
-export interface Product {
-  id: number;
-  image: string;
-  title: string;
-}
+// export interface Product {
+//   id: number;
+//   image: string;
+//   title: string;
+// }
 
 export interface Cart {
   id: number;

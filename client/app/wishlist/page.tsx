@@ -3,17 +3,17 @@
 import LikeIcon from "@/assets/images/icons/LikeIcon";
 import { useWishlist } from "@/providers/WishlistProvider";
 import { getProducts } from "@/service/api";
-import { Product } from "@/types/types";
+import { ProductDetails } from "@/types/types";
 import { IconButton } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 const Wishlist = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductDetails[]>([]);
   const { wishlistIds, deleteItem } = useWishlist();
 
   useEffect(() => {
     const getData = async () => {
-      const products: Product[] = await getProducts();
+      const products: ProductDetails[] = await getProducts();
       setProducts(products);
     };
     getData();
@@ -32,7 +32,13 @@ const Wishlist = () => {
               <LikeIcon liked="red" />
             </IconButton>
 
-            <Image src={item.image} alt={item.title} width={300} height={300} />
+            <Image
+              src={item.image}
+              alt={item.title}
+              className="rounded-2xl"
+              width={300}
+              height={300}
+            />
 
             <h3>{item.title}</h3>
           </div>
