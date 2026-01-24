@@ -49,7 +49,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   const wishlistIds = useMemo(
     () => wishlist.map((w) => w.product_id),
-    [wishlist]
+    [wishlist],
   );
 
   const cartIds = useMemo(() => cart.map((w) => w.product_id), [cart]);
@@ -83,7 +83,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     try {
       const newItem = await postId(productId);
       setWishlist((prev) =>
-        prev.map((w) => (w.id === tempItem.id ? newItem : w))
+        prev.map((w) => (w.id === tempItem.id ? newItem : w)),
       );
     } catch (err) {
       setWishlist((prev) => prev.filter((w) => w.id !== tempItem.id));

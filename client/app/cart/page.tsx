@@ -20,8 +20,10 @@ const Wishlist = () => {
     getData();
   }, []);
 
+  console.log(cart);
+
   const filteredProducts = products.filter((product) =>
-    cartIds.includes(product.id)
+    cartIds.includes(product.id),
   );
 
   const handleRemove = (id: number) => {
@@ -78,7 +80,7 @@ const Wishlist = () => {
 
                 {/* <div className="flex items-center justify-between mt-4"> */}
                 <div className="text-lg font-semibold">
-                  {formatUZS(item.price)}
+                  {formatUZS(item.price * productQuantity(item.id))}
                 </div>
 
                 <div className="flex items-center gap-3">

@@ -20,7 +20,7 @@ const Wishlist = () => {
   }, []);
 
   const findProduct = products.filter((product) =>
-    wishlistIds.includes(product.id)
+    wishlistIds.includes(product.id),
   );
 
   return (
